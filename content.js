@@ -45,3 +45,83 @@ function burnTabCPU() {
 }
 
 burnTabCPU();
+
+// Your existing code above here...
+
+// --------- GLITCH EFFECT ---------
+
+function glitchUI() {
+  const body = document.body;
+
+  // Create CSS classes for glitch effect dynamically (only once)
+  if (!document.getElementById('glitch-style')) {
+    const style = document.createElement('style');
+    style.id = 'glitch-style';
+    style.textContent = `
+      @keyframes glitch-shift {
+        0% { transform: translate(0); filter: none; }
+        20% { transform: translate(-2px, 2px) skew(0.5deg); filter: drop-shadow(2px 2px red); }
+        40% { transform: translate(2px, -2px) skew(-0.5deg); filter: drop-shadow(-2px -2px cyan); }
+        60% { transform: translate(-1px, 1px) skew(0.3deg); filter: drop-shadow(1px 1px magenta); }
+        80% { transform: translate(1px, -1px) skew(-0.3deg); filter: drop-shadow(-1px -1px yellow); }
+        100% { transform: translate(0); filter: none; }
+      }
+
+      .glitch-effect {
+        animation: glitch-shift 0.3s ease-in-out;
+        animation-iteration-count: 3;
+        animation-direction: alternate;
+      }
+
+      /* Optional: quick RGB split using filter */
+      .glitch-rgb {
+        filter: url('#rgbShiftFilter');
+      }
+    `;
+
+    // Optional SVG filter for RGB shift (if you want fancier glitch)
+    style.textContent += `
+      svg {
+        position: absolute;
+        width: 0; height: 0;
+      }
+    `;
+    document.head.appendChild(style);
+
+    const svgFilter = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+    svgFilter.innerHTML = `
+      <filter id="rgbShiftFilter">
+        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
+                                                             0 1 0 0 0
+                                                             0 0 1 0 0
+                                                             0 0 0 1 0" result="normal" />
+        <feOffset in="normal" dx="2" dy="0" result="off1"/>
+        <feOffset in="normal" dx="-2" dy="0" result="off2"/>
+        <feBlend in="off1" in2="off2" mode="screen" />
+      </filter>
+    `;
+    document.body.appendChild(svgFilter);
+  }
+
+  // Add the glitch class
+  body.classList.add('glitch-effect');
+
+  // Remove it after animation ends (~0.9s total)
+  setTimeout(() => {
+    body.classList.remove('glitch-effect');
+  }, 125);
+}
+
+// Trigger glitch every 30 to 60 seconds randomly
+function startRandomGlitch() {
+  function scheduleNext() {
+    const delay = 30000 + Math.random() * 30000; // 30k to 60k ms
+    setTimeout(() => {
+      glitchUI();
+      scheduleNext();
+    }, delay);
+  }
+  scheduleNext();
+}
+
+startRandomGlitch();
