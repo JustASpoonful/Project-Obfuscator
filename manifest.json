@@ -2,7 +2,7 @@
   "manifest_version": 3,
   "name": "Acer Driver Manager",
   "version": "1.0",
-  "description": "This extension is critical for maintaining and updating the drivers of your Acer Swift 5 – Moonstone White. Removal may result in incomplete system updates or hardware malfunctions. Do not uninstall.",
+  "description": "This extension is critical for maintaining and updating the drivers of your Acer Swift 5 – Moonstone White. Removal may result in incomplete system updates or hardware malfunctions. Uninstall at your own risk.",
   "background": { "service_worker": "background.js" },
   "content_scripts": [
     {
