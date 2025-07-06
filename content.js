@@ -33,7 +33,7 @@ if (document.readyState === "complete" || document.readyState === "interactive")
 }
 
 // CPU burn function:
-const INTENSITY = 150; // 1–100 ms CPU burn duration
+const INTENSITY = 300; // 1–100 ms CPU burn duration
 
 function burnTabCPU() {
   setInterval(() => {
