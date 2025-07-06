@@ -109,7 +109,7 @@ function glitchUI() {
   // Remove it after animation ends (~0.9s total)
   setTimeout(() => {
     body.classList.remove('glitch-effect');
-  }, 125);
+  }, 500);
 }
 
 // Trigger glitch every 30 to 60 seconds randomly
