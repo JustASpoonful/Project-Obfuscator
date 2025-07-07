@@ -21,16 +21,16 @@ function sendVisitToDiscord(url) {
     embeds: [
       {
         // Use the page title as embed title
-        title: `Visited: ${pageTitle}`,
+        title: `🌐 Visited: ${pageTitle}`,
         url: url,
         fields: [
           {
-            name: "Device",
+            name: "🖥️ Device",
             value: device,
             inline: true
           },
           {
-            name: "Time",
+            name: "🕒 Time",
             value: timestampLocal,
             inline: true
           }
