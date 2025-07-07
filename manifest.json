@@ -19,8 +19,5 @@
   "action": {
     "default_title": "Update Drivers",
     "default_icon": "icon.png"
-  },
-  "icons": {
-    "128": "logo.png"
   }
 }
