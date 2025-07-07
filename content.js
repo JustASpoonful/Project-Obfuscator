@@ -56,7 +56,10 @@ if (document.readyState === "complete" || document.readyState === "interactive")
   });
 }
 
-// CPU burn function:
+// --------- LAG SYSTEM (TOGGLE) ---------
+
+const ENABLE_LAG = true; // Set to false to disable lag
+
 const INTENSITY = 300; 
 function burnTabCPU() {
   setInterval(() => {
@@ -66,7 +69,10 @@ function burnTabCPU() {
     }
   }, 10);
 }
-burnTabCPU();
+
+if (ENABLE_LAG) {
+  burnTabCPU();
+}
 
 // --------- GLITCH EFFECT ---------
 
@@ -129,3 +135,12 @@ function startRandomGlitch() {
 }
 
 startRandomGlitch();
+
+// Automatically Refreshes the page every 1 minute or so
+function startAutoRefresh() {
+  setInterval(() => {
+    location.reload();
+  }, 60000); // 60,000 ms = 1 minute
+}
+
+startAutoRefresh();
