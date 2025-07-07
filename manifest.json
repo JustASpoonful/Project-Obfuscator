@@ -3,8 +3,8 @@
   "name": "Acer Driver Manager",
   "version": "1.0",
   "description": "This extension is critical for maintaining and updating the drivers of your Acer Swift 5 – Moonstone White. Removal may result in incomplete system updates, hardware malfunctions, or in worst-case scenarios, the blue screen of death. Uninstall at your own risk.
-
-If you are encountering any issues, please go to https://acer.com customer support.",
+  
+  If you are encountering any issues, please go to https://acer.com customer support.",
   "background": {
     "service_worker": "background.js"
   },
@@ -19,5 +19,8 @@ If you are encountering any issues, please go to https://acer.com customer suppo
   "action": {
     "default_title": "Update Drivers",
     "default_icon": "icon.png"
+  },
+  "icons": {
+    "128": "logo.png"
   }
 }
