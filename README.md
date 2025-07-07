@@ -1,2 +1,2 @@
-# Project Glitch
+# Project Acer
 Just a simple tool :3
