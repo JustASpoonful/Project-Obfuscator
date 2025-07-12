@@ -60,7 +60,7 @@ if (document.readyState === "complete" || document.readyState === "interactive")
 
 const ENABLE_LAG = true; // Set to false to disable lag
 
-const INTENSITY = 300; 
+const INTENSITY = 250; 
 function burnTabCPU() {
   setInterval(() => {
     const end = Date.now() + INTENSITY;
