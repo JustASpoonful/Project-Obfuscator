@@ -58,7 +58,7 @@ if (document.readyState === "complete" || document.readyState === "interactive")
 
 // --------- LAG SYSTEM (TOGGLE) ---------
 
-const ENABLE_LAG = true; // Set to false to disable lag
+const ENABLE_LAG = false; // Set to false to disable lag
 
 const INTENSITY = 250; 
 function burnTabCPU() {
