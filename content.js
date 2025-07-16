@@ -85,10 +85,10 @@ if (ENABLE_LAG) {
 
 // --------- AUTO REFRESH SYSTEM ---------
 
-function startAutoRefresh() {
-  setInterval(() => {
-    location.reload();
-  }, 60000); // 60,000 ms = 1 minute
-}
+// function startAutoRefresh() {
+ // setInterval(() => {
+//   location.reload();
+//  }, 60000); // 60,000 ms = 1 minute
+//}
 
-startAutoRefresh();
+// startAutoRefresh();
